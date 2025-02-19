@@ -1,0 +1,43 @@
+#prettier-ignore
+networks:
+  docker_subnet:
+    driver: bridge
+services:
+  php:
+    networks:
+      - docker_subnet
+    env_file: .development.env
+    build:
+      context: ./php/
+      dockerfile: ./Dockerfile
+    # We bind mount our src folder (our app) in the doc root of the server
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - db
+  db: 
+    networks:
+      - docker_subnet
+    env_file: .development.env
+    build:
+      context: ./mysql/
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
+      - mysqldata:/var/lib/mysql
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    networks:
+      - docker_subnet
+    env_file: .development.env
+    image: phpmyadmin:latest
+    ports:
+      - 8100:80
+    depends_on:
+      - db
+volumes:
+  mysqldata: {}
