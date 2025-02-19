@@ -47,7 +47,7 @@ If everything is stopped, this will clean everything to start anew. If not, it w
 
 `docker-compose up -d`
 
-We can also add ` --build` to the end as a shorthand to do `docker-compose build` and then the `docker-compose up -d`
+We can also add `--build` to the end as a shorthand to do `docker-compose build` and then the `docker-compose up -d`
 
 #### Stop all containers
 
